@@ -113,6 +113,44 @@ async function handleResetData() {
   UI.showToast('Client data has been reset', 'success');
 }
 
+function openDeleteAccountModal() {
+  document.getElementById('delete-account-modal').showModal();
+}
+
+function closeDeleteAccountModal() {
+  const form = document.getElementById('delete-account-form');
+  document.getElementById('delete-account-modal').close();
+  form.reset();
+  UI.clearFieldErrors(form);
+}
+
+function handleDeleteAccountSubmit(event) {
+  event.preventDefault();
+  const form = event.target;
+  UI.clearFieldErrors(form);
+
+  const password = form.password.value;
+  const user = getCurrentUser();
+
+  if (password !== user.password) {
+    UI.showFieldError('da-password', 'Password is incorrect');
+    return;
+  }
+
+  // Remove this user from the stored list, then log them out.
+  const remainingUsers = Storage.getUsers().filter((u) => u.id !== user.id);
+  Storage.saveUsers(remainingUsers);
+  Storage.clearSession();
+
+  UI.showToast('Account deleted', 'success');
+
+  // Give the user a moment to read the toast before sending them to
+  // the login page.
+  setTimeout(function () {
+    window.location.href = 'index.html';
+  }, 1500);
+}
+
 export function initProfile() {
   renderProfileInfo();
   fillEditForm();
@@ -120,4 +158,8 @@ export function initProfile() {
   document.getElementById('edit-profile-form').addEventListener('submit', handleEditProfileSubmit);
   document.getElementById('change-password-form').addEventListener('submit', handleChangePasswordSubmit);
   document.getElementById('reset-data-btn').addEventListener('click', handleResetData);
+
+  document.getElementById('delete-account-btn').addEventListener('click', openDeleteAccountModal);
+  document.getElementById('delete-account-close').addEventListener('click', closeDeleteAccountModal);
+  document.getElementById('delete-account-form').addEventListener('submit', handleDeleteAccountSubmit);
 }
