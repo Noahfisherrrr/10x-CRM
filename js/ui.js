@@ -108,4 +108,13 @@ export const UI = {
     div.textContent = value;
     return div.innerHTML;
   },
+
+  // Turns "Emily Johnson" into "EJ". Used as a fallback avatar when a
+  // client or user has no profile picture.
+  getInitials(fullName) {
+    const nameParts = fullName.trim().split(' ');
+    const firstInitial = nameParts[0][0];
+    const lastInitial = nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : '';
+    return (firstInitial + lastInitial).toUpperCase();
+  },
 };
