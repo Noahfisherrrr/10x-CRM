@@ -1,18 +1,11 @@
 // auth.js
 //
-// This file runs on both index.html (Login) and signup.html (Sign Up).
-// It only sets up the form that actually exists on the current page —
-// initSignupForm() and initLoginForm() both check for their form first
-// and simply do nothing if it's not there.
+// Form logic for signup.html (Sign Up) and index.html (Login).
+// main.js decides which of these two functions to call, based on
+// which page is currently loaded.
 
 import { Storage } from './storage.js';
 import { UI } from './ui.js';
-import { Guard } from './guard.js';
-
-// If someone is already logged in, there is no reason to show them a
-// login or signup form.
-Guard.redirectIfAuthed();
-UI.applyTheme();
 
 function isValidEmailFormat(email) {
   // Very simple check: something, then @, then something, then a dot,
@@ -28,7 +21,7 @@ function isValidPasswordFormat(password) {
   return password.length >= 8 && hasLetter && hasNumber;
 }
 
-function initSignupForm() {
+export function initSignupForm() {
   const form = document.getElementById('signup-form');
   if (!form) {
     return;
@@ -101,7 +94,7 @@ function initSignupForm() {
   });
 }
 
-function initLoginForm() {
+export function initLoginForm() {
   const form = document.getElementById('login-form');
   if (!form) {
     return;
@@ -151,6 +144,3 @@ function initLoginForm() {
     window.location.href = 'dashboard.html';
   });
 }
-
-initSignupForm();
-initLoginForm();

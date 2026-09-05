@@ -6,7 +6,7 @@
   <title>10X CRM — Dashboard</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body data-page="dashboard">
   <div id="toast-container" class="toast-container"></div>
   <div class="app-shell">
     <nav class="sidebar">
@@ -19,11 +19,6 @@
     </nav>
     <main class="page-content" id="dashboard-content"></main>
   </div>
-  <script src="js/storage.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/guard.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/dashboard.js"></script>
-  <script>Guard.protect(); UI.initNav('dashboard.html');</script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

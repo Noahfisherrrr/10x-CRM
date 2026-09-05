@@ -124,3 +124,50 @@ button {
   font-size: 14px;
   color: var(--text-muted);
 }
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar .logo {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.sidebar a {
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.nav-btn {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+.page-content {
+  flex: 1;
+  padding: 32px;
+}

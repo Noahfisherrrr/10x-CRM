@@ -80,4 +80,32 @@ export const UI = {
       input.classList.remove('input-error');
     });
   },
+
+  // Sets up the sidebar on a protected page: highlights the link for
+  // the page we're on, and wires the theme toggle + logout buttons.
+  // activePage should be the file name, e.g. "dashboard.html".
+  initNav(activePage) {
+    const navLinks = document.querySelectorAll('[data-nav]');
+    navLinks.forEach((link) => {
+      const isActiveLink = link.dataset.nav === activePage;
+      link.classList.toggle('active', isActiveLink);
+    });
+
+    document.getElementById('theme-toggle').addEventListener('click', UI.toggleTheme);
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      Storage.clearSession();
+      window.location.href = 'index.html';
+    });
+  },
+
+  // Turns "<script>" into text that shows on the page instead of
+  // running as HTML. We use this whenever we insert text a user typed
+  // (a client's name, a note, etc.) into innerHTML, so someone can't
+  // type HTML/JavaScript into a form field and have it execute.
+  escapeHtml(value) {
+    const div = document.createElement('div');
+    div.textContent = value;
+    return div.innerHTML;
+  },
 };

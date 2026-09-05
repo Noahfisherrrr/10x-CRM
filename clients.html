@@ -6,7 +6,7 @@
   <title>10X CRM — Clients</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body data-page="clients">
   <div id="toast-container" class="toast-container"></div>
   <div class="app-shell">
     <nav class="sidebar">
@@ -19,11 +19,6 @@
     </nav>
     <main class="page-content" id="clients-content"></main>
   </div>
-  <script src="js/storage.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/guard.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/clients.js"></script>
-  <script>Guard.protect(); UI.initNav('clients.html');</script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
