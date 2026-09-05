@@ -54,3 +54,38 @@ function initSignupForm() {
 }
 
 document.addEventListener('DOMContentLoaded', initSignupForm);
+
+function initLoginForm() {
+  const form = document.getElementById('login-form');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    UI.clearFieldErrors(form);
+
+    const email = form.email.value.trim().toLowerCase();
+    const password = form.password.value;
+
+    let hasError = false;
+    if (!email) {
+      UI.showFieldError('email', 'Email is required');
+      hasError = true;
+    }
+    if (!password) {
+      UI.showFieldError('password', 'Password is required');
+      hasError = true;
+    }
+    if (hasError) return;
+
+    const user = Storage.getUsers().find(u => u.email === email && u.password === password);
+    if (!user) {
+      UI.showFieldError('password', 'Invalid email or password');
+      return;
+    }
+
+    Storage.saveSession({ userId: user.id, email: user.email, loginAt: new Date().toISOString() });
+    window.location.href = 'dashboard.html';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initLoginForm);
