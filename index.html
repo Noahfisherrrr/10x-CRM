@@ -19,7 +19,10 @@
           </div>
           <div class="field">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" />
+            <div class="password-input-wrapper">
+              <input type="password" id="password" name="password" />
+              <button type="button" class="password-toggle-btn" data-toggle-password="password">Show</button>
+            </div>
             <p class="field-error" data-error-for="password"></p>
           </div>
           <button type="submit" class="btn-primary">Log In</button>

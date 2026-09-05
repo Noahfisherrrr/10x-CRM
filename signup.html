@@ -28,7 +28,10 @@
         </div>
         <div class="field">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password">
+          <div class="password-input-wrapper">
+            <input type="password" id="password" name="password">
+            <button type="button" class="password-toggle-btn" data-toggle-password="password">Show</button>
+          </div>
           <div class="password-strength">
             <div class="password-strength-bar" data-strength-bar-for="password"></div>
           </div>
@@ -37,7 +40,10 @@
         </div>
         <div class="field">
           <label for="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" name="confirmPassword">
+          <div class="password-input-wrapper">
+            <input type="password" id="confirmPassword" name="confirmPassword">
+            <button type="button" class="password-toggle-btn" data-toggle-password="confirmPassword">Show</button>
+          </div>
           <p class="field-error" data-error-for="confirmPassword"></p>
         </div>
         <button type="submit" class="btn-primary">Create Account</button>

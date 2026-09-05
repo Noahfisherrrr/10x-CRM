@@ -67,6 +67,28 @@ export const UI = {
     }
   },
 
+  // Finds every "Show"/"Hide" button on the page (they're marked with
+  // data-toggle-password="<fieldId>") and wires it up to reveal or
+  // hide the matching password field. Safe to call on every page,
+  // even ones with no password fields at all.
+  initPasswordToggles() {
+    const toggleButtons = document.querySelectorAll('[data-toggle-password]');
+
+    toggleButtons.forEach((button) => {
+      const fieldId = button.dataset.togglePassword;
+      const input = document.getElementById(fieldId);
+      if (!input) {
+        return;
+      }
+
+      button.addEventListener('click', function () {
+        const isCurrentlyHidden = input.type === 'password';
+        input.type = isCurrentlyHidden ? 'text' : 'password';
+        button.textContent = isCurrentlyHidden ? 'Hide' : 'Show';
+      });
+    });
+  },
+
   // Updates the weak/medium/strong meter under a password field.
   // strength should be "weak", "medium", "strong", or null (null clears
   // the meter, e.g. when the field is empty). fieldName must match the

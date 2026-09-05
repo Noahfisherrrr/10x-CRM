@@ -52,6 +52,7 @@ if (isPublicPage) {
 }
 
 UI.applyTheme();
+UI.initPasswordToggles();
 
 if (!isPublicPage) {
   // Protected pages (dashboard/clients/profile) all share the same

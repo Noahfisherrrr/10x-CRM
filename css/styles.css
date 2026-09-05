@@ -134,6 +134,36 @@ button {
   color: var(--text);
 }
 
+/* Wraps a password input so the "Show"/"Hide" button can sit inside
+   it, on the right-hand side. */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.password-input-wrapper input {
+  flex: 1;
+  /* Leaves room so the typed password doesn't run under the button. */
+  padding-right: 56px;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding: 0 12px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text);
+}
+
 .btn-primary {
   width: 100%;
   padding: 12px;
