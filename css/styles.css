@@ -292,10 +292,72 @@ button {
   color: #fff;
 }
 
-.status-select.status-Lead { background: #6c757d; }
-.status-select.status-Contacted { background: #f0ad4e; }
-.status-select.status-Won { background: var(--success); }
-.status-select.status-Lost { background: var(--danger); }
+.status-select.status-Lead, .badge.status-Lead { background: #6c757d; }
+.status-select.status-Contacted, .badge.status-Contacted { background: #f0ad4e; }
+.status-select.status-Won, .badge.status-Won { background: var(--success); }
+.status-select.status-Lost, .badge.status-Lost { background: var(--danger); }
+
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.stat-card h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.dashboard-section {
+  margin-bottom: 32px;
+}
+
+.pipeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.pipeline-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pipeline-card p {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
 
 .deal-value {
   font-weight: 600;
