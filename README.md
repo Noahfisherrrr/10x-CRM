@@ -1,31 +1,48 @@
 # 10X CRM
 
+A simplified CRM (Customer Relationship Management) web app for a sales manager who needs to track leads through a pipeline — built with plain HTML, CSS, and JavaScript, no frameworks or build tooling.
+
 ## About
 
-10X CRM is a simplified client-relationship management tool for a sales manager who needs to track leads through a pipeline. It covers account creation and login, a dashboard with live stats, a searchable/filterable client list backed by a real API, and a profile page — all built with plain HTML, CSS, and JavaScript, no frameworks.
+10X CRM lets a sales manager sign up, log in, and manage a client base: a dashboard summarizing pipeline health at a glance, a searchable/filterable/sortable client list backed by a real API, per-client notes and follow-up reminders, and a profile page for account settings. All data is persisted in the browser's `localStorage`; the initial 30 clients are seeded from the [DummyJSON](https://dummyjson.com) API.
 
 ## Features
 
-- **Sign up / Login** — form validation with exact error messages, passwords stored (in plain text, deliberately — see note below) in `localStorage`.
-- **Auth guard** — protected pages (Dashboard, Clients, Profile) redirect to Login when no session exists; Login/Sign Up redirect away when one does.
-- **Dashboard** — live clock, 4 stat cards (Total Clients, Active Deals, Won Revenue, New This Week), a pipeline breakdown by status, and the 5 most recently added clients.
-- **Clients** — loads 30 seed clients from the DummyJSON API on first visit (cached in `localStorage` after that), search by name/company, filter by pipeline status, sort by newest/name/deal value, add a client (POST), delete a client (DELETE, with confirmation), change a client's status inline, and a details modal with notes and a 1-minute follow-up reminder toast.
-- **Profile** — edit full name/company, change password (validated against the current password), and reset all client data back to a fresh 30 from the API.
-- **Dark/light theme** toggle, persisted across visits.
+- **Sign Up / Login** — full client-side form validation with exact required error messages; passwords are stored in `localStorage` (deliberately plain-text for this learning project — see the security note below).
+- **Auth guard** — protected pages (Dashboard, Clients, Profile) redirect to Login when there's no active session; Login/Sign Up redirect straight to the Dashboard when there already is one.
+- **Dashboard** — a live clock, four stat cards (Total Clients, Active Deals, Won Revenue, New This Week), a Pipeline Overview broken down by status, and the 5 most recently added clients.
+- **Clients**
+  - Loads 30 seed clients from the DummyJSON API on first visit, cached in `localStorage` after that (so a page reload never re-fetches).
+  - Search by name/company, filter by pipeline status (`All` / `Lead` / `Contacted` / `Won` / `Lost`), and sort (Newest first / Name A–Z / Deal value) — all three combine together.
+  - Add a client (`POST` to DummyJSON) with full validation, including a duplicate-email check.
+  - Delete a client (`DELETE` to DummyJSON) with a confirmation prompt.
+  - Change a client's pipeline status inline from a dropdown on their card.
+  - Open a client's details for their full info, notes history, and a "Remind me in 1 min" follow-up toast.
+  - Loading and error states (with a Retry button) around the initial API fetch.
+- **Profile** — view account info, edit full name/company, change password (checked against the current password), and reset all client data back to a fresh 30 from the API (without touching the account or session).
+- **Dark/light theme** toggle, persisted across visits and pages.
+- **Toast notifications** for every create/update/delete action, auto-dismissing after 3 seconds.
 
 ## Tech Stack
 
-- Vanilla JavaScript (ES modules), HTML, CSS — no frameworks or libraries.
-- [DummyJSON](https://dummyjson.com) as the mock REST API for client data (`GET /users`, `POST /users/add`, `DELETE /users/{id}`).
-- Browser `localStorage` for all persistence (`crm_users`, `crm_session`, `crm_clients`, `crm_theme`).
-- [`node:test`](https://nodejs.org/api/test.html) for unit tests of pure logic (no dependencies).
+- **Vanilla JavaScript** (ES modules — `import`/`export`, no bundler) — no frameworks or libraries, per project constraints.
+- **HTML5 / CSS3** — one shared stylesheet using CSS custom properties for the dark/light theme.
+- **[DummyJSON](https://dummyjson.com)** as the mock REST API for seed client data (`GET /users`, `POST /users/add`, `DELETE /users/{id}`).
+- **Browser `localStorage`** for all persistence — no backend/server. Fixed keys: `crm_users`, `crm_session`, `crm_clients`, `crm_theme`.
+- **[`node:test`](https://nodejs.org/api/test.html)** for unit tests of pure logic (no external test dependencies).
 
 ## How to Run
 
-No build step or server is required for the app itself:
+This is a static site — no build step. Because it uses ES modules, open it through a local server rather than double-clicking the HTML file (some browsers block `fetch()`/module imports on `file://` URLs):
 
-1. Clone the repo.
-2. Open `index.html` directly in a browser, or serve the folder with any static file server (e.g. the VS Code "Live Server" extension) if your browser blocks `fetch()` from `file://` URLs.
+```bash
+git clone https://github.com/Noahfisherrrr/10x-CRM.git
+cd 10x-CRM
+npx serve .
+# then open the printed http://localhost:... URL
+```
+
+Any static server works (VS Code's "Live Server" extension, `python -m http.server`, etc.) — there's nothing to install or build.
 
 To run the unit tests:
 
@@ -35,12 +52,19 @@ npm test
 
 ## Live Demo
 
-_Not yet deployed — a Vercel/Netlify link will be added here once the app is deployed._
+_Add the deployed Vercel/Netlify URL here once the site is deployed._
 
 ## Test Account
 
-Sign up with any email/password (min. 8 characters, at least one letter and one number) — there is no seed account, since accounts are created client-side in `localStorage` and don't persist across browsers/devices.
+The app seeds one working demo account automatically the first time it loads in a browser, so you can log in immediately without signing up:
+
+| Field | Value |
+|---|---|
+| Email | `arthur@gmail.com` |
+| Password | `Arthur123` |
+
+You can also create your own account from the Sign Up page — full name (3+ characters), a valid email, and a password of at least 8 characters containing a letter and a number.
 
 ## Credits
 
-Built solo, with AI assistance from Claude Code throughout — see [`ai-log.md`](ai-log.md) for specific prompts, what was used vs. rejected, and what was learned.
+Built with AI assistance (Claude) throughout — see [`ai-log.md`](ai-log.md) for specific prompts, what was used vs. rejected, and what was learned along the way.
