@@ -9,6 +9,7 @@
   --primary: #5b8def;
   --success: #34c38f;
   --danger: #f46a6a;
+  --warning: #f1b44c;
 }
 
 body.theme-light {
@@ -65,6 +66,30 @@ button {
 
 .input-error { border-color: var(--danger) !important; }
 .field-error { color: var(--danger); font-size: 13px; margin-top: 4px; }
+
+/* Weak/medium/strong meter shown under the password field on signup. */
+.password-strength {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 3px;
+  transition: width .2s ease, background-color .2s ease;
+}
+
+.password-strength-bar.strength-weak { width: 33%; background: var(--danger); }
+.password-strength-bar.strength-medium { width: 66%; background: var(--warning); }
+.password-strength-bar.strength-strong { width: 100%; background: var(--success); }
+
+.password-strength-label { font-size: 12px; margin: 0; }
+.password-strength-label.strength-weak { color: var(--danger); }
+.password-strength-label.strength-medium { color: var(--warning); }
+.password-strength-label.strength-strong { color: var(--success); }
 
 .auth-page {
   min-height: 100vh;

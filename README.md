@@ -58,10 +58,10 @@ _Add the deployed Vercel/Netlify URL here once the site is deployed._
 
 The app seeds one working demo account automatically the first time it loads in a browser, so you can log in immediately without signing up:
 
-| Field | Value |
-|---|---|
-| Email | `arthur@gmail.com` |
-| Password | `Arthur123` |
+| Field    | Value              |
+| -------- | ------------------ |
+| Email    | `arthur@gmail.com` |
+| Password | `Arthur123`        |
 
 You can also create your own account from the Sign Up page — full name (3+ characters), a valid email, and a password of at least 8 characters containing a letter and a number.
 

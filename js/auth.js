@@ -4,8 +4,8 @@
 // main.js decides which of these two functions to call, based on
 // which page is currently loaded.
 
-import { Storage } from './storage.js';
-import { UI } from './ui.js';
+import { Storage } from "./storage.js";
+import { UI } from "./ui.js";
 
 function isValidEmailFormat(email) {
   // Very simple check: something, then @, then something, then a dot,
@@ -16,18 +16,44 @@ function isValidEmailFormat(email) {
 }
 
 function isValidPasswordFormat(password) {
-  const hasLetter = /[a-zA-Z]/.test(password);
+  const hasUpperCase = /[A-Z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
-  return password.length >= 8 && hasLetter && hasNumber;
+  const hasSymbol = /[^a-zA-Z0-9]/.test(password);
+  return password.length >= 8 && hasUpperCase && hasNumber && hasSymbol;
+}
+
+// Turns a password into "weak", "medium", "strong", or null (null means
+// the field is empty, so we don't show a meter at all).
+//
+// - weak: doesn't even meet the minimum rule above (8+ chars, a capital
+//   letter, a number, and a symbol).
+// - medium: meets the minimum rule.
+// - strong: meets the minimum rule AND is nice and long (12+ chars).
+function getPasswordStrength(password) {
+  if (!password) {
+    return null;
+  }
+
+  if (!isValidPasswordFormat(password)) {
+    return "weak";
+  }
+
+  return password.length >= 12 ? "strong" : "medium";
 }
 
 export function initSignupForm() {
-  const form = document.getElementById('signup-form');
+  const form = document.getElementById("signup-form");
   if (!form) {
     return;
   }
 
-  form.addEventListener('submit', function (event) {
+  // Update the weak/medium/strong meter every time the user types in
+  // the password field.
+  form.password.addEventListener("input", function () {
+    UI.showPasswordStrength("password", getPasswordStrength(form.password.value));
+  });
+
+  form.addEventListener("submit", function (event) {
     event.preventDefault();
     UI.clearFieldErrors(form);
 
@@ -43,28 +69,28 @@ export function initSignupForm() {
     let formIsValid = true;
 
     if (fullName.length < 3) {
-      UI.showFieldError('fullName', 'Full name must be at least 3 characters');
+      UI.showFieldError("fullName", "Full name must be at least 3 characters");
       formIsValid = false;
     }
 
     if (!isValidEmailFormat(email)) {
-      UI.showFieldError('email', 'Please enter a valid email address');
+      UI.showFieldError("email", "Please enter a valid email address");
       formIsValid = false;
     } else {
       const emailAlreadyUsed = existingUsers.some((user) => user.email === email);
       if (emailAlreadyUsed) {
-        UI.showFieldError('email', 'An account with this email already exists');
+        UI.showFieldError("email", "An account with this email already exists");
         formIsValid = false;
       }
     }
 
     if (!isValidPasswordFormat(password)) {
-      UI.showFieldError('password', 'Password must be at least 8 characters and contain a letter and a number');
+      UI.showFieldError("password", "Password must be at least 8 characters and include a capital letter, a number, and a symbol");
       formIsValid = false;
     }
 
     if (confirmPassword !== password) {
-      UI.showFieldError('confirmPassword', 'Passwords do not match');
+      UI.showFieldError("confirmPassword", "Passwords do not match");
       formIsValid = false;
     }
 
@@ -84,23 +110,23 @@ export function initSignupForm() {
     existingUsers.push(newUser);
     Storage.saveUsers(existingUsers);
 
-    UI.showToast('Account created successfully! Please log in.', 'success');
+    UI.showToast("Account created successfully! Please log in.", "success");
 
     // Give the user a moment to read the toast before sending them to
     // the login page.
     setTimeout(function () {
-      window.location.href = 'index.html';
+      window.location.href = "index.html";
     }, 1500);
   });
 }
 
 export function initLoginForm() {
-  const form = document.getElementById('login-form');
+  const form = document.getElementById("login-form");
   if (!form) {
     return;
   }
 
-  form.addEventListener('submit', function (event) {
+  form.addEventListener("submit", function (event) {
     event.preventDefault();
     UI.clearFieldErrors(form);
 
@@ -110,12 +136,12 @@ export function initLoginForm() {
     let formIsValid = true;
 
     if (!email) {
-      UI.showFieldError('email', 'Email is required');
+      UI.showFieldError("email", "Email is required");
       formIsValid = false;
     }
 
     if (!password) {
-      UI.showFieldError('password', 'Password is required');
+      UI.showFieldError("password", "Password is required");
       formIsValid = false;
     }
 
@@ -123,15 +149,13 @@ export function initLoginForm() {
       return;
     }
 
-    const matchingUser = Storage.getUsers().find(
-      (user) => user.email === email && user.password === password
-    );
+    const matchingUser = Storage.getUsers().find((user) => user.email === email && user.password === password);
 
     if (!matchingUser) {
       // On purpose, we don't say whether the email or the password was
       // wrong — that's a common security practice so an attacker can't
       // use the error message to figure out which emails are registered.
-      UI.showFieldError('password', 'Invalid email or password');
+      UI.showFieldError("password", "Invalid email or password");
       return;
     }
 
@@ -141,6 +165,6 @@ export function initLoginForm() {
       loginAt: new Date().toISOString(),
     });
 
-    window.location.href = 'dashboard.html';
+    window.location.href = "dashboard.html";
   });
 }

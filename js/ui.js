@@ -67,6 +67,40 @@ export const UI = {
     }
   },
 
+  // Updates the weak/medium/strong meter under a password field.
+  // strength should be "weak", "medium", "strong", or null (null clears
+  // the meter, e.g. when the field is empty). fieldName must match the
+  // matching [data-strength-bar-for] and [data-strength-label-for] in
+  // the HTML.
+  showPasswordStrength(fieldName, strength) {
+    const bar = document.querySelector(`[data-strength-bar-for="${fieldName}"]`);
+    const label = document.querySelector(`[data-strength-label-for="${fieldName}"]`);
+
+    if (!bar || !label) {
+      return;
+    }
+
+    // Reset to the plain state first, then add the strength-specific
+    // class back on if we have one.
+    bar.className = 'password-strength-bar';
+    label.className = 'password-strength-label';
+    label.textContent = '';
+
+    if (!strength) {
+      return;
+    }
+
+    const strengthLabels = {
+      weak: 'Weak password',
+      medium: 'Medium password',
+      strong: 'Strong password',
+    };
+
+    bar.classList.add(`strength-${strength}`);
+    label.classList.add(`strength-${strength}`);
+    label.textContent = strengthLabels[strength];
+  },
+
   // Clears every field error inside one form. We call this at the
   // start of every submit handler so old errors don't stick around.
   clearFieldErrors(form) {
