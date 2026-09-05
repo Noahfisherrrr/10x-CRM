@@ -13,7 +13,7 @@ const DUMMY_USERS_URL = 'https://dummyjson.com/users?limit=30';
 // The API gives us a "user", but our app works with a "client" object
 // that has a different shape. This function converts one into the
 // other.
-function mapApiUserToClient(apiUser) {
+export function mapApiUserToClient(apiUser) {
   const fullName = `${apiUser.firstName} ${apiUser.lastName}`;
   const companyName = apiUser.company ? apiUser.company.name : '';
 
