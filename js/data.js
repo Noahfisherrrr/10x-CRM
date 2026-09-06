@@ -6,16 +6,16 @@
 // and turn them into our Client shape. Both the Clients page and the
 // Dashboard use this so they always show the same data.
 
-import { Storage } from './storage.js';
+import { Storage } from "./storage.js";
 
-const DUMMY_USERS_URL = 'https://dummyjson.com/users?limit=30';
+const DUMMY_USERS_URL = "https://dummyjson.com/users?limit=30";
 
 // The API gives us a "user", but our app works with a "client" object
 // that has a different shape. This function converts one into the
 // other.
 export function mapApiUserToClient(apiUser) {
   const fullName = `${apiUser.firstName} ${apiUser.lastName}`;
-  const companyName = apiUser.company ? apiUser.company.name : '';
+  const companyName = apiUser.company ? apiUser.company.name : "";
 
   // The PRD says deal value can be a random number between 500 and
   // 10,000, so every seeded client looks a little different.
@@ -28,7 +28,7 @@ export function mapApiUserToClient(apiUser) {
     phone: apiUser.phone,
     company: companyName,
     image: apiUser.image,
-    status: 'Lead',
+    status: "Lead",
     dealValue: randomDealValue,
     notes: [],
     createdAt: new Date().toISOString(),
@@ -38,7 +38,7 @@ export function mapApiUserToClient(apiUser) {
 async function fetchClientsFromApi() {
   const response = await fetch(DUMMY_USERS_URL);
   if (!response.ok) {
-    throw new Error('DummyJSON responded with status ' + response.status);
+    throw new Error("DummyJSON responded with status " + response.status);
   }
   const data = await response.json();
   return data.users.map(mapApiUserToClient);

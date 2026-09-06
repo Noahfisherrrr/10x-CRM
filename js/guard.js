@@ -5,7 +5,7 @@
 // Guard.protect() as soon as it loads. Every public page (login,
 // signup) calls Guard.redirectIfAuthed() instead.
 
-import { Storage } from './storage.js';
+import { Storage } from "./storage.js";
 
 export const Guard = {
   // Call this on a protected page. If there is no logged-in session,
@@ -13,7 +13,7 @@ export const Guard = {
   protect() {
     const session = Storage.getSession();
     if (!session) {
-      window.location.href = 'index.html';
+      window.location.href = "index.html";
     }
   },
 
@@ -23,7 +23,7 @@ export const Guard = {
   redirectIfAuthed() {
     const session = Storage.getSession();
     if (session) {
-      window.location.href = 'dashboard.html';
+      window.location.href = "dashboard.html";
     }
   },
 };

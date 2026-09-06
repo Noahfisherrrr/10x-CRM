@@ -2,21 +2,21 @@
 // main.js calls initDashboard() after it has already checked the
 // visitor is logged in and set up the sidebar.
 
-import { Storage } from './storage.js';
-import { UI } from './ui.js';
-import { DataStore } from './data.js';
+import { Storage } from "./storage.js";
+import { UI } from "./ui.js";
+import { DataStore } from "./data.js";
 
-const STATUS_OPTIONS = ['Lead', 'Contacted', 'Won', 'Lost'];
+const STATUS_OPTIONS = ["Lead", "Contacted", "Won", "Lost"];
 
 function renderGreeting() {
   const session = Storage.getSession();
   const user = Storage.getUsers().find((u) => u.id === session.userId);
-  const firstName = user ? user.fullName.split(' ')[0] : 'there';
-  document.getElementById('dashboard-greeting').textContent = `Welcome back, ${firstName}!`;
+  const firstName = user ? user.fullName.split(" ")[0] : "there";
+  document.getElementById("dashboard-greeting").textContent = `Welcome back, ${firstName}!`;
 }
 
 function renderClock() {
-  const clockEl = document.getElementById('dashboard-clock');
+  const clockEl = document.getElementById("dashboard-clock");
 
   function updateClock() {
     const now = new Date();
@@ -28,27 +28,23 @@ function renderClock() {
 }
 
 function renderStats(clients) {
-  document.getElementById('stat-total').textContent = clients.length;
+  document.getElementById("stat-total").textContent = clients.length;
 
-  const activeDeals = clients.filter(
-    (client) => client.status !== 'Won' && client.status !== 'Lost'
-  );
-  document.getElementById('stat-active').textContent = activeDeals.length;
+  const activeDeals = clients.filter((client) => client.status !== "Won" && client.status !== "Lost");
+  document.getElementById("stat-active").textContent = activeDeals.length;
 
-  const wonRevenue = clients
-    .filter((client) => client.status === 'Won')
-    .reduce((total, client) => total + client.dealValue, 0);
-  document.getElementById('stat-revenue').textContent = UI.formatCurrency(wonRevenue);
+  const wonRevenue = clients.filter((client) => client.status === "Won").reduce((total, client) => total + client.dealValue, 0);
+  document.getElementById("stat-revenue").textContent = UI.formatCurrency(wonRevenue);
 
   const newThisWeek = clients.filter((client) => {
     const daysOld = (Date.now() - new Date(client.createdAt)) / 86400000;
     return daysOld <= 7;
   });
-  document.getElementById('stat-new').textContent = newThisWeek.length;
+  document.getElementById("stat-new").textContent = newThisWeek.length;
 }
 
 function renderPipeline(clients) {
-  const grid = document.getElementById('pipeline-grid');
+  const grid = document.getElementById("pipeline-grid");
 
   grid.innerHTML = STATUS_OPTIONS.map((status) => {
     const count = clients.filter((client) => client.status === status).length;
@@ -58,11 +54,11 @@ function renderPipeline(clients) {
         <p>${count}</p>
       </div>
     `;
-  }).join('');
+  }).join("");
 }
 
 function renderRecentClients(clients) {
-  const container = document.getElementById('recent-clients-list');
+  const container = document.getElementById("recent-clients-list");
 
   const recentClients = clients
     .slice()
@@ -92,7 +88,7 @@ function renderRecentClients(clients) {
         </div>
       `;
     })
-    .join('');
+    .join("");
 }
 
 export async function initDashboard() {
